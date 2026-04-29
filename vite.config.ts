@@ -21,7 +21,7 @@ import { componentTagger } from "lovable-tagger";
 //   },
 
 export default defineConfig(({ mode }) => ({
- base: '/timeless-tresures/',
+ base: '/timeless-treasures/',
  server: {
  host: "::",
  port: 8080,
