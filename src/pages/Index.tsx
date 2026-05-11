@@ -32,6 +32,8 @@ const Index = () => {
     <main className="bg-background text-foreground">
       <Navbar />
       <Hero />
+        <h1>{conteudo?.titulos[1]?.textContent}</h1>
+          <p>{conteudo?.paragrafos[1]?.textContent}</p>
       <About />
       <Collection />
       <Differentials />
