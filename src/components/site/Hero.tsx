@@ -1,7 +1,27 @@
 import heroImg from "@/assets/hero.jpg";
 import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchPagina } from "../../utils/fetchPagina";
+import { parseContent } from "../../utils/parseContent";
+
+type Conteudo = ReturnType<typeof parseContent>;
 
 export const Hero = () => {
+
+  const [conteudo, setConteudo] = useState<Conteudo | null>(null);
+  useEffect(() => {
+    fetchPagina("pagina-1")
+      .then(pagina => {
+        // fetchPagina trouxe o JSON completo da página
+        // parseContent separa o HTML em paragrafos, titulos, imagens...
+        const elementos = parseContent(pagina.content.rendered);
+        setConteudo(elementos);
+      })
+      .catch(() => {
+        console.warn("Não foi possível buscar o conteúdo do WordPress.");
+      });
+  }, []);
+
   return (
     <section id="top" className="relative min-h-screen flex items-end overflow-hidden">
       <img
@@ -20,11 +40,10 @@ export const Hero = () => {
             ⸺ Curadoria desde 1908
           </p>
           <h1 className="font-serif text-bone text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.02] text-balance">
-            Elegância que<br />
-            <span className="italic text-gold-soft">atravessa</span> gerações.
+            {conteudo?.titulos[0]?.textContent}
           </h1>
           <p className="mt-8 text-bone/80 text-lg max-w-xl font-light leading-relaxed">
-            Antiguidades refinadas, restauradas com mestria e selecionadas para quem reconhece o silêncio elegante do tempo.
+            {conteudo?.paragrafos[0]?.textContent}
           </p>
           <div className="mt-12 flex flex-wrap gap-4">
             <a
